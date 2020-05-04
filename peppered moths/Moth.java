@@ -15,7 +15,7 @@ public class Moth extends Animal
     // The age at which a moth can start to breed.
     private static final int BREEDING_AGE = 4;
     // The likelihood of a moth breeding (in percent).
-    private static final double BREEDING_PROBABILITY = 6;
+    private static final double BREEDING_PROBABILITY = 10;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The likelihood moth mutates to black (in percent).

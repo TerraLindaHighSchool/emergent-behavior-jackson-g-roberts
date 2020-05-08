@@ -17,6 +17,7 @@ public class Food extends Actor
     public Food()
     {
         image = new GreenfootImage(SIZE, SIZE);
+        updateImage();
     }
     
     /**
@@ -25,7 +26,7 @@ public class Food extends Actor
      */
     public void act() 
     {
-        updateImage();
+        
     } 
     
     public void removeCrumb()

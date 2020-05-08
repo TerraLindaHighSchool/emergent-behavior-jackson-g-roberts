@@ -9,6 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, and Greenfoot)
 public class AntWorld extends World
 {
     public static final int SIZE = 640;
+    
+    private int numOfFoodPiles = 5;
 
     /**
      * Create a new world. It will be initialised with a few ant hills
@@ -28,6 +30,16 @@ public class AntWorld extends World
     private void prepare()
     {
         AntHill antHill = new AntHill();
-        addObject(antHill,115,159);
+        addObject(antHill, 115, 159);
+        AntHill antHill2 = new AntHill();
+        addObject(antHill2, 321, 503);
+        
+        for (int i = 0; i < numOfFoodPiles; i++)
+        {
+            int foodPileX = Greenfoot.getRandomNumber(SIZE);
+            int foodPileY = Greenfoot.getRandomNumber(SIZE);
+            
+            addObject(new Food(), foodPileX, foodPileY);
+        }
     }
 }

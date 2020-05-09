@@ -8,8 +8,12 @@ import greenfoot.*;
  */
 public class Ant extends Creature
 {
+    private static final int MAX_PH_AVAILABLE = 16;
+    private static final int TIME_FOLLOWING_TRAIL = 30;
+    
     private boolean carryingFood;
     private GreenfootImage image1, image2;
+    private int phAvailable, followTrialTimeRemaining;
     
     /**
      * Create an ant with a given home hill. The initial speed is zero (not moving).
@@ -17,6 +21,9 @@ public class Ant extends Creature
     public Ant(AntHill home)
     {
         setHomeHill(home);
+        
+        phAvailable = MAX_PH_AVAILABLE;
+        followTrialTimeRemaining = 0;
         
         image1 = getImage();
         image2 = new GreenfootImage("ant-with-food.gif");
@@ -35,6 +42,7 @@ public class Ant extends Creature
         if (carryingFood)
         {
             walkTowardsHome();
+            handlePheromoneDrop();
             
             if (atHome())
             {
@@ -65,6 +73,16 @@ public class Ant extends Creature
         checkForFood();
     }
     
+    private void handlePheromoneDrop()
+    {
+        
+    }
+    
+    private void walkTowardsPheromoneCenter()
+    {
+        
+    }
+    
     private boolean atHome()
     {
         if (getHomeHill() != null)
@@ -75,5 +93,10 @@ public class Ant extends Creature
         {
             return false;
         }
+    }
+    
+    private boolean smellsPheromone()
+    {
+        return false;
     }
 }

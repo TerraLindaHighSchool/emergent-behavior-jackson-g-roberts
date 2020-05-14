@@ -13,7 +13,7 @@ public class Ant extends Creature
     
     private boolean carryingFood;
     private GreenfootImage image1, image2;
-    private int phAvailable, followTrialTimeRemaining;
+    private int phAvailable, followTrailTimeRemaining;
     
     /**
      * Create an ant with a given home hill. The initial speed is zero (not moving).
@@ -23,7 +23,7 @@ public class Ant extends Creature
         setHomeHill(home);
         
         phAvailable = MAX_PH_AVAILABLE;
-        followTrialTimeRemaining = 0;
+        followTrailTimeRemaining = 0;
         
         image1 = getImage();
         image2 = new GreenfootImage("ant-with-food.gif");
@@ -69,18 +69,47 @@ public class Ant extends Creature
     
     private void searchForFood()
     {
-        randomWalk();
+        if (followTrailTimeRemaining == 0)
+        {
+            if (smellsPheromone())
+            {
+                walkTowardsPheromoneCenter();
+            } else
+            {
+                randomWalk();
+                if (isAtEdge()) turn(180);
+            }
+        } else 
+        {
+            followTrailTimeRemaining--;
+            walkAwayFromHome();
+        }
         checkForFood();
     }
     
     private void handlePheromoneDrop()
     {
-        
+        if (phAvailable == MAX_PH_AVAILABLE)
+        {
+            getWorld().addObject(new Pheremone((int) (getHomeHill().getX() / 2.6), 127, (int) (getHomeHill().getY() / 2.6)), getX(), getY());
+            phAvailable = 0;
+        } else
+        {
+            phAvailable++;
+        }
     }
     
     private void walkTowardsPheromoneCenter()
     {
-        
+        Actor droplet = getOneIntersectingObject(Pheremone.class);
+        if (droplet != null)
+        {
+            headTowards(droplet);
+            if (getX() == droplet.getX() && getY() == droplet.getY())
+            {
+                followTrailTimeRemaining = TIME_FOLLOWING_TRAIL;
+            }
+        }
     }
     
     private boolean atHome()
@@ -97,6 +126,13 @@ public class Ant extends Creature
     
     private boolean smellsPheromone()
     {
-        return false;
+        Actor droplet = getOneIntersectingObject(Pheremone.class);
+        if (droplet != null)
+        {
+            return true;
+        } else 
+        {
+            return false;
+        }
     }
 }

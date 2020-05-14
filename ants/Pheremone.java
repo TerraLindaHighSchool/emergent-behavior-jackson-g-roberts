@@ -12,9 +12,17 @@ public class Pheremone extends Actor
     private static final int MAX_INTENSITY = 180;
     private int intensity;
     
-    public Pheremone()
+    private int mRed, mGreen, mBlue;
+    
+    public Pheremone(int red, int green, int blue)
     {
         intensity = MAX_INTENSITY;
+        
+        mRed = red;
+        mGreen = green;
+        mBlue = blue;
+        
+        updateImage();
     }
     
     /**
@@ -26,7 +34,7 @@ public class Pheremone extends Actor
         intensity--;
         if (intensity <= 0)
         {
-            //tbd
+            getWorld().removeObject(this);
         } else
         {
             if ((intensity % 6) == 0)
@@ -41,7 +49,7 @@ public class Pheremone extends Actor
         int size = intensity / 3 + 5;
         image = new GreenfootImage(size + 1, size + 1);
         
-        image.setColor(Color.WHITE);
+        image.setColor(new Color(mRed, mGreen, mBlue));
         image.setTransparency(intensity / 3);
         image.fillOval(0, 0, size, size);
         

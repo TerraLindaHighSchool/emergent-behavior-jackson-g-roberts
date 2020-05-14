@@ -10,7 +10,8 @@ public class AntWorld extends World
 {
     public static final int SIZE = 640;
     
-    private int numOfFoodPiles = 5;
+    private static final int NUM_OF_FOOD_PILES = 10;
+    private static final int NUM_OF_ANT_HILLS = 2;
 
     /**
      * Create a new world. It will be initialised with a few ant hills
@@ -19,8 +20,16 @@ public class AntWorld extends World
     public AntWorld()
     {
         super(SIZE, SIZE, 1);
-        setPaintOrder(Ant.class, AntHill.class);
+        setPaintOrder(Counter.class, Ant.class, AntHill.class);
         prepare();
+    }
+    
+    public void act()
+    {
+        if (getObjects(Food.class).size() == 0 && getObjects(Pheremone.class).size() == 0)
+        {
+            Greenfoot.stop();
+        }
     }
 
     /**
@@ -29,12 +38,15 @@ public class AntWorld extends World
      */
     private void prepare()
     {
-        AntHill antHill = new AntHill();
-        addObject(antHill, 115, 159);
-        AntHill antHill2 = new AntHill();
-        addObject(antHill2, 321, 503);
+        for (int i = 0; i < NUM_OF_ANT_HILLS; i++)
+        {
+            int antHillX = Greenfoot.getRandomNumber(SIZE);
+            int antHillY = Greenfoot.getRandomNumber(SIZE);
+            
+            addObject(new AntHill(), antHillX, antHillY);
+        }
         
-        for (int i = 0; i < numOfFoodPiles; i++)
+        for (int i = 0; i < NUM_OF_FOOD_PILES; i++)
         {
             int foodPileX = Greenfoot.getRandomNumber(SIZE);
             int foodPileY = Greenfoot.getRandomNumber(SIZE);
